@@ -18,6 +18,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { updateSkill as updateSkillAction } from "../Features/SkillSlice";
+import * as ENV from "../config";
 
 const UpdateSkill = () => {
   const [skill, setSkill] = useState("");
@@ -45,7 +46,7 @@ const UpdateSkill = () => {
 
   const fetchSkill = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/skill/${id}`);
+      const response = await axios.get(`${ENV.SERVER_URL}/skill/${id}`);
 
       setSkill(response.data.skill);
 
