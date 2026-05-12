@@ -16,6 +16,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useEffect } from "react";
 
+import { useDispatch } from "react-redux";
+
+import { saveSkill } from "../Features/SkillSlice";
+
 import { skillSchemaValidation } from "../Validation/SkillValidSchema";
 
 import axios from "axios";
@@ -23,12 +27,14 @@ import axios from "axios";
 const AddSkill = () => {
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
-  console.log(currentUser);
+  const dispatch = useDispatch();
 
   const {
     control,
     handleSubmit,
+
     formState: { errors },
+
     reset,
     setValue,
   } = useForm({
@@ -67,18 +73,17 @@ const AddSkill = () => {
   const onSubmit = async (data) => {
     console.log(data);
 
-    try {
-      await axios.post("http://localhost:3001/addSkill", {
+    dispatch(
+      saveSkill({
         ...data,
+
         user: currentUser._id,
-      });
+      }),
+    );
 
-      alert("Skill Added Successfully ✅");
+    alert("Skill Added Successfully ✅");
 
-      reset();
-    } catch (error) {
-      console.log(error);
-    }
+    reset();
   };
 
   return (
@@ -135,7 +140,7 @@ const AddSkill = () => {
               <Col md="6">
                 <FormGroup>
                   <Label style={labelStyle}>
-                    Contact / Email or Phone Number{" "}
+                    Contact / Email or Phone Number
                   </Label>
 
                   <Controller
@@ -179,6 +184,7 @@ const AddSkill = () => {
                       <div
                         style={{
                           display: "flex",
+
                           gap: "20px",
                         }}
                       >
@@ -258,52 +264,75 @@ const AddSkill = () => {
 
 const pageStyle = {
   background: "#f9fffc",
+
   minHeight: "100vh",
+
   display: "flex",
+
   justifyContent: "center",
+
   alignItems: "center",
 };
 
 const cardStyle = {
   width: "750px",
+
   padding: "25px",
+
   borderRadius: "20px",
+
   border: "none",
+
   boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+
   backgroundColor: "rgb(255, 255, 255)",
 };
 
 const titleStyle = {
   textAlign: "center",
+
   marginBottom: "25px",
+
   color: "#16a085",
+
   fontWeight: "700",
 };
 
 const labelStyle = {
   fontWeight: "600",
+
   color: "#333",
 };
 
 const inputStyle = {
   borderRadius: "10px",
+
   padding: "10px",
+
   border: "1px solid #ddd",
 };
 
 const errorStyle = {
   color: "red",
+
   fontSize: "12px",
 };
 
 const buttonStyle = {
   width: "100%",
+
   backgroundColor: "#16a085",
+
   border: "none",
+
   padding: "12px",
+
   borderRadius: "10px",
+
   fontWeight: "600",
+
   marginTop: "10px",
+
   color: "#ffffff",
 };
 

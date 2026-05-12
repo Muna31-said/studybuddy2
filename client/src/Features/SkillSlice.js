@@ -28,6 +28,8 @@ export const saveSkill = createAsyncThunk(
         date: skillData.date,
 
         voiceCall: skillData.voiceCall,
+
+        user: skillData.user,
       });
 
       const skill = response.data.data;
@@ -46,7 +48,9 @@ export const getSkills = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get(`${ENV.SERVER_URL}/skills`);
+
       console.log(response.data);
+
       return response.data;
     } catch (error) {
       console.log(error);
@@ -75,10 +79,7 @@ export const updateSkill = createAsyncThunk(
 
   async ({ id, updatedData }) => {
     try {
-      const response = await axios.put(
-        `${ENV.SERVER_URL}/skill/${id}`,
-        updatedData,
-      );
+      await axios.put(`${ENV.SERVER_URL}/skill/${id}`, updatedData);
 
       return {
         _id: id,
